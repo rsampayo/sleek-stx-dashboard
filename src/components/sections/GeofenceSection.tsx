@@ -17,11 +17,12 @@ const center = {
   lng: -74.0060,
 };
 
-const drawingManagerOptions = {
+// Import the correct types from the library
+const drawingManagerOptions: google.maps.drawing.DrawingManagerOptions = {
   drawingControl: true,
   drawingControlOptions: {
-    position: 2, // This is equivalent to google.maps.ControlPosition.TOP_CENTER
-    drawingModes: ["polygon"], // This is equivalent to [google.maps.drawing.OverlayType.POLYGON]
+    position: google.maps.ControlPosition.TOP_CENTER,
+    drawingModes: [google.maps.drawing.OverlayType.POLYGON],
   },
   polygonOptions: {
     fillColor: "#FF0000",
