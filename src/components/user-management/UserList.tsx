@@ -61,7 +61,7 @@ export const UserList = ({ users, onUpdate, onDelete }: UserListProps) => {
             </TableCell>
             <TableCell>
               <Badge 
-                variant={user.status === "active" ? "success" : "secondary"}
+                variant={user.status === "active" ? "default" : "secondary"}
                 className="capitalize"
               >
                 {user.status}
@@ -82,7 +82,11 @@ export const UserList = ({ users, onUpdate, onDelete }: UserListProps) => {
                     </SheetHeader>
                     <UserForm 
                       user={user}
-                      onSubmit={(updatedUser) => onUpdate({ ...updatedUser, id: user.id })}
+                      onSubmit={(updatedUser) => onUpdate({ 
+                        ...updatedUser, 
+                        id: user.id,
+                        lastActive: user.lastActive 
+                      })}
                     />
                   </SheetContent>
                 </Sheet>
