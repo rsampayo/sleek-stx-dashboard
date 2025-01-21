@@ -17,6 +17,23 @@ const center = {
   lng: -74.0060,
 };
 
+const drawingManagerOptions = {
+  drawingControl: true,
+  drawingControlOptions: {
+    position: 2, // This is equivalent to google.maps.ControlPosition.TOP_CENTER
+    drawingModes: ["polygon"], // This is equivalent to [google.maps.drawing.OverlayType.POLYGON]
+  },
+  polygonOptions: {
+    fillColor: "#FF0000",
+    fillOpacity: 0.3,
+    strokeWeight: 2,
+    clickable: true,
+    editable: true,
+    draggable: true,
+    zIndex: 1,
+  },
+};
+
 export const GeofenceSection = () => {
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
@@ -74,22 +91,7 @@ export const GeofenceSection = () => {
               >
                 <DrawingManager
                   onPolygonComplete={onPolygonComplete}
-                  options={{
-                    drawingControl: true,
-                    drawingControlOptions: {
-                      position: google.maps.ControlPosition.TOP_CENTER,
-                      drawingModes: [google.maps.drawing.OverlayType.POLYGON],
-                    },
-                    polygonOptions: {
-                      fillColor: "#FF0000",
-                      fillOpacity: 0.3,
-                      strokeWeight: 2,
-                      clickable: true,
-                      editable: true,
-                      draggable: true,
-                      zIndex: 1,
-                    },
-                  }}
+                  options={drawingManagerOptions}
                 />
               </GoogleMap>
             </LoadScript>
