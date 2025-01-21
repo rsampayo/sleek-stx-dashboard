@@ -41,7 +41,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {navItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => {}}
+              onClick={() => {
+                const event = new CustomEvent('sectionChange', { 
+                  detail: { section: item.id }
+                });
+                window.dispatchEvent(event);
+              }}
               className="flex w-full items-center rounded-md px-4 py-2 text-sm text-white hover:bg-accent/80"
             >
               {item.label}
