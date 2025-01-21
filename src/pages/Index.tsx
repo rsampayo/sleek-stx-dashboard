@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useEffect, useState } from "react";
 import { AnalyticsSection } from "@/components/sections/AnalyticsSection";
+import { GeofenceSection } from "@/components/sections/GeofenceSection";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -58,11 +59,6 @@ const Index = () => {
     { id: "EQ-1001", name: "Truck A", maintenance: "2025-02-10", status: "Requires Service" },
     { id: "EQ-1002", name: "Loader #1", maintenance: "2025-03-01", status: "OK" },
     { id: "EQ-1003", name: "Forklift B", maintenance: "2025-01-25", status: "Overdue" },
-  ];
-
-  const geofences = [
-    { id: "GF-001", name: "Project X Site", radius: 300 },
-    { id: "GF-002", name: "Warehouse A", radius: 150 },
   ];
 
   const tasks = [
@@ -193,41 +189,7 @@ const Index = () => {
         );
 
       case "geofence":
-        return (
-          <div className="space-y-6">
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight">Geofence Management</h1>
-              <p className="text-muted-foreground">
-                Define and manage geofenced zones for each project or location.
-              </p>
-            </div>
-
-            <Button className="mb-6">Add New Geofence</Button>
-
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Geofence ID</TableHead>
-                  <TableHead>Location Name</TableHead>
-                  <TableHead>Radius (m)</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {geofences.map((geofence) => (
-                  <TableRow key={geofence.id}>
-                    <TableCell>{geofence.id}</TableCell>
-                    <TableCell>{geofence.name}</TableCell>
-                    <TableCell>{geofence.radius}</TableCell>
-                    <TableCell>
-                      <Button variant="outline" size="sm">Edit</Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        );
+        return <GeofenceSection />;
 
       case "analytics":
         return <AnalyticsSection />;
