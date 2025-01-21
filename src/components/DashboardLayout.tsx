@@ -17,7 +17,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     { id: "analytics", label: "Analytics & Reports" },
     { id: "tasks", label: "Task & Schedule Mgmt" },
     { id: "security", label: "Security & Compliance" },
-    { id: "integration", label: "Integrations" },
+    { id: "integrations", label: "Integrations" },
     { id: "monitoring", label: "Monitoring & Support" },
   ];
 
