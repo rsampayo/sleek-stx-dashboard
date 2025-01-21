@@ -8,6 +8,7 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activeItem, setActiveItem] = useState("dashboard");
 
   const navItems = [
     { id: "dashboard", label: "Dashboard" },
@@ -41,12 +42,18 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <button
               key={item.id}
               onClick={() => {
+                setActiveItem(item.id);
                 const event = new CustomEvent('sectionChange', { 
                   detail: { section: item.id }
                 });
                 window.dispatchEvent(event);
               }}
-              className="flex w-full items-center rounded-md px-4 py-2 text-sm text-white hover:bg-primary/80"
+              className={cn(
+                "flex w-full items-center rounded-md px-4 py-2 text-sm text-white transition-all duration-200 ease-in-out",
+                activeItem === item.id 
+                  ? "bg-accent text-accent-foreground font-medium" 
+                  : "hover:bg-primary/80 hover:translate-x-1"
+              )}
             >
               {item.label}
             </button>
@@ -65,7 +72,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background px-4 shadow-sm">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="rounded-md p-2 hover:bg-primary/10"
+            className="rounded-md p-2 hover:bg-primary/10 transition-colors duration-200"
           >
             {sidebarOpen ? (
               <X className="h-6 w-6" />
@@ -77,7 +84,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <span className="text-sm text-muted-foreground">
               Welcome, Admin
             </span>
-            <button className="rounded-md bg-primary px-4 py-2 text-sm text-white hover:bg-primary/90">
+            <button className="rounded-md bg-primary px-4 py-2 text-sm text-white hover:bg-primary/90 transition-colors duration-200">
               Logout
             </button>
           </div>
