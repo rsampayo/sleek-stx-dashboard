@@ -16,7 +16,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     { id: "geofence", label: "Geofence Management" },
     { id: "analytics", label: "Analytics & Reports" },
     { id: "tasks", label: "Task & Schedule Mgmt" },
-    { id: "workflow", label: "Workflow Automation" },
     { id: "security", label: "Security & Compliance" },
     { id: "integration", label: "Integrations" },
     { id: "monitoring", label: "Monitoring & Support" },
