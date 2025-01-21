@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useEffect, useState } from "react";
+import { AnalyticsSection } from "@/components/sections/AnalyticsSection";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -227,6 +228,9 @@ const Index = () => {
             </Table>
           </div>
         );
+
+      case "analytics":
+        return <AnalyticsSection />;
 
       case "tasks":
         return (
