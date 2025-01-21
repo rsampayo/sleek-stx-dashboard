@@ -82,11 +82,18 @@ export const UserList = ({ users, onUpdate, onDelete }: UserListProps) => {
                     </SheetHeader>
                     <UserForm 
                       user={user}
-                      onSubmit={(updatedUser) => onUpdate({ 
-                        ...updatedUser, 
-                        id: user.id,
-                        lastActive: user.lastActive 
-                      })}
+                      onSubmit={(updatedUserData) => {
+                        // Ensure all required properties are present
+                        const updatedUser: User = {
+                          id: user.id,
+                          name: updatedUserData.name,
+                          email: updatedUserData.email,
+                          role: updatedUserData.role,
+                          status: updatedUserData.status,
+                          lastActive: user.lastActive
+                        };
+                        onUpdate(updatedUser);
+                      }}
                     />
                   </SheetContent>
                 </Sheet>
