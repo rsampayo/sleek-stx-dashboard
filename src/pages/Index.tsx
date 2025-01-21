@@ -4,6 +4,7 @@ import { AnalyticsSection } from "@/components/sections/AnalyticsSection";
 import { GeofenceSection } from "@/components/sections/GeofenceSection";
 import { UserManagementSection } from "@/components/sections/UserManagementSection";
 import { EquipmentSection } from "@/components/sections/EquipmentSection";
+import { TaskSection } from "@/components/sections/TaskSection";
 import { useState, useEffect } from "react";
 
 const Index = () => {
@@ -33,6 +34,8 @@ const Index = () => {
         return <UserManagementSection />;
       case "equipment":
         return <EquipmentSection />;
+      case "tasks":
+        return <TaskSection />;
       default:
         return (
           <div className="p-6">
