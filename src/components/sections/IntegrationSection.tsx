@@ -12,9 +12,9 @@ export const IntegrationSection = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Available Integrations</CardTitle>
+          <CardTitle>Future Integration Possibilities</CardTitle>
           <CardDescription>
-            Currently in development. Future integrations will include:
+            The following integrations are possible but are currently not in scope for this project:
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -27,7 +27,7 @@ export const IntegrationSection = () => {
                 <li>Okta - For Single Sign-On (SSO) capabilities</li>
               </ul>
               <p className="mt-4 italic">
-                Note: These integrations are planned for future releases and are currently out of scope.
+                Note: These integrations are not part of the current project scope and will be considered for future development phases.
               </p>
             </div>
           </div>
