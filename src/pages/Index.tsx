@@ -6,6 +6,7 @@ import { UserManagementSection } from "@/components/sections/UserManagementSecti
 import { EquipmentSection } from "@/components/sections/EquipmentSection";
 import { TaskSection } from "@/components/sections/TaskSection";
 import { SecuritySection } from "@/components/sections/SecuritySection";
+import { IntegrationSection } from "@/components/sections/IntegrationSection";
 import { useState, useEffect } from "react";
 
 const Index = () => {
@@ -39,6 +40,8 @@ const Index = () => {
         return <TaskSection />;
       case "security":
         return <SecuritySection />;
+      case "integrations":
+        return <IntegrationSection />;
       default:
         return (
           <div className="p-6">
