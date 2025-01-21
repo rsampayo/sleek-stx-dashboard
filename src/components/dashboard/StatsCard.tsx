@@ -12,7 +12,7 @@ export function StatsCard({ title, value, change, Icon }: StatsCardProps) {
   const isPositive = change.startsWith('+');
   
   return (
-    <Card className="p-6">
+    <Card className="p-6 transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
       <div className="flex justify-between items-start">
         <div>
           <p className="text-sm text-muted-foreground">{title}</p>

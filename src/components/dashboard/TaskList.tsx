@@ -27,14 +27,17 @@ export function TaskList() {
   };
 
   return (
-    <Card>
+    <Card className="transition-all duration-200 hover:shadow-lg">
       <CardHeader>
         <CardTitle>Recent Tasks</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           {tasks.map((task) => (
-            <div key={task.id} className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+            <div 
+              key={task.id} 
+              className="flex items-center justify-between p-4 bg-muted/50 rounded-lg transition-all duration-200 hover:bg-muted hover:translate-x-1 cursor-pointer"
+            >
               <div className="flex items-center gap-3">
                 {getStatusIcon(task.status)}
                 <span>{task.title}</span>

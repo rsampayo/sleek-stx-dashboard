@@ -46,14 +46,17 @@ export function EquipmentStatus() {
   };
 
   return (
-    <Card>
+    <Card className="transition-all duration-200 hover:shadow-lg">
       <CardHeader>
         <CardTitle>Equipment Status</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
           {equipment.map((item) => (
-            <div key={item.id} className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+            <div 
+              key={item.id} 
+              className="flex items-center justify-between p-4 bg-muted/50 rounded-lg transition-all duration-200 hover:bg-muted hover:translate-x-1 cursor-pointer"
+            >
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   {getStatusIcon(item.status)}
