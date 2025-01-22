@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -9,6 +10,7 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeItem, setActiveItem] = useState("dashboard");
+  const navigate = useNavigate();
 
   const navItems = [
     { id: "dashboard", label: "Dashboard" },
@@ -21,6 +23,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     { id: "integrations", label: "Integrations" },
     { id: "monitoring", label: "Monitoring & Support" },
   ];
+
+  const handleLogout = () => {
+    // TODO: Add actual logout logic here when authentication is implemented
+    navigate("/login");
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -84,7 +91,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <span className="text-sm text-muted-foreground">
               Welcome, Admin
             </span>
-            <button className="rounded-md bg-primary px-4 py-2 text-sm text-white hover:bg-primary/90 transition-colors duration-200">
+            <button 
+              onClick={handleLogout}
+              className="rounded-md bg-primary px-4 py-2 text-sm text-white hover:bg-primary/90 transition-colors duration-200"
+            >
               Logout
             </button>
           </div>
