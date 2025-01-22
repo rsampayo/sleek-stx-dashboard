@@ -1,4 +1,4 @@
-import { Check, Settings, AlertCircle, Tool, Calendar } from "lucide-react";
+import { Check, Settings, AlertCircle, Wrench, Calendar } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
@@ -119,7 +119,7 @@ export function EquipmentStatus() {
               {/* Maintenance Tasks */}
               <div className="mt-4">
                 <h4 className="text-sm font-medium flex items-center gap-2 mb-2">
-                  <Tool className="h-4 w-4" />
+                  <Wrench className="h-4 w-4" />
                   Upcoming Maintenance
                 </h4>
                 <div className="grid gap-2">
