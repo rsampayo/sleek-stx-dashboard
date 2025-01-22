@@ -69,7 +69,7 @@ export default function Login() {
               className="mx-auto h-16 mb-4"
             />
             <h1 className="text-2xl font-semibold text-gray-900">STX Underground LLC</h1>
-            <p className="text-gray-600">Clock-In & Tracking System</p>
+            <p className="text-gray-600">Administrative System</p>
           </div>
 
           <Form {...form}>
