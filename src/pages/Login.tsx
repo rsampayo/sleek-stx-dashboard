@@ -46,7 +46,7 @@ export default function Login() {
         title: "Success",
         description: "Logged in successfully",
       });
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       toast({
         variant: "destructive",
