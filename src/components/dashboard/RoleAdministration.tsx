@@ -3,14 +3,26 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Edit2, Save } from "lucide-react";
+import { Edit2, Save, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { roles as initialRoles, Role } from "@/data/roles";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export function RoleAdministration() {
   const [standards, setStandards] = useState<Role[]>(initialRoles);
   const [editingRole, setEditingRole] = useState<string | null>(null);
   const [editedValues, setEditedValues] = useState<Role | null>(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [roleToDelete, setRoleToDelete] = useState<string | null>(null);
 
   const handleEdit = (role: Role) => {
     setEditingRole(role.id);
@@ -39,10 +51,42 @@ export function RoleAdministration() {
     }
   };
 
+  const handleAddRole = () => {
+    const newRole: Role = {
+      id: `role-${Date.now()}`,
+      title: "New Role",
+      standardHours: 8,
+      overtimeLimit: 10,
+      hourlyRate: 25,
+      overtimeRate: 37.5,
+    };
+    setStandards([...standards, newRole]);
+    handleEdit(newRole);
+    toast.success("New role added");
+  };
+
+  const handleDeleteClick = (roleId: string) => {
+    setRoleToDelete(roleId);
+    setShowDeleteDialog(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (roleToDelete) {
+      setStandards(standards.filter((s) => s.id !== roleToDelete));
+      setShowDeleteDialog(false);
+      setRoleToDelete(null);
+      toast.success("Role deleted successfully");
+    }
+  };
+
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Role Standards Administration</CardTitle>
+        <Button onClick={handleAddRole} size="sm">
+          <Plus className="h-4 w-4 mr-2" />
+          Add Role
+        </Button>
       </CardHeader>
       <CardContent>
         <Table>
@@ -140,29 +184,57 @@ export function RoleAdministration() {
                   )}
                 </TableCell>
                 <TableCell>
-                  {editingRole === standard.id ? (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleSave(standard.id)}
-                    >
-                      <Save className="h-4 w-4" />
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleEdit(standard)}
-                    >
-                      <Edit2 className="h-4 w-4" />
-                    </Button>
-                  )}
+                  <div className="flex gap-2">
+                    {editingRole === standard.id ? (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleSave(standard.id)}
+                      >
+                        <Save className="h-4 w-4" />
+                      </Button>
+                    ) : (
+                      <>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleEdit(standard)}
+                        >
+                          <Edit2 className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleDeleteClick(standard.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </>
+                    )}
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </CardContent>
+
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the role.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteConfirm}>
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Card>
   );
 }
