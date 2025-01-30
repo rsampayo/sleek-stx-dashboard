@@ -13,6 +13,7 @@ export function SidebarNav({ activeItem, setActiveItem }: SidebarNavProps) {
     { id: "geofence", label: "Geofence Management" },
     { id: "analytics", label: "Analytics & Reports" },
     { id: "tasks", label: "Task & Schedule Mgmt" },
+    { id: "jsa", label: "JSA Checklists" },
     { id: "notifications", label: "Notifications" },
     { id: "security", label: "Security & Compliance" },
     { id: "integrations", label: "Integrations" },
