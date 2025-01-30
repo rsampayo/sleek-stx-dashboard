@@ -3,21 +3,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Edit2, Save, Plus, Trash2, ChevronDown, ChevronUp } from "lucide-react";
+import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { roles as initialRoles, Role, defaultModules, Permission } from "@/data/roles";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { RolePermissions } from "./RolePermissions";
+import { RoleActions } from "./RoleActions";
+import { DeleteRoleDialog } from "./DeleteRoleDialog";
 
 export function RoleAdministration() {
   const [standards, setStandards] = useState<Role[]>(initialRoles);
@@ -216,94 +207,22 @@ export function RoleAdministration() {
                   )}
                 </TableCell>
                 <TableCell>
-                  <Collapsible open={openPermissions === standard.id}>
-                    <CollapsibleTrigger asChild>
-                      <Button variant="ghost" size="sm" onClick={() => togglePermissions(standard.id)}>
-                        {openPermissions === standard.id ? (
-                          <ChevronUp className="h-4 w-4" />
-                        ) : (
-                          <ChevronDown className="h-4 w-4" />
-                        )}
-                      </Button>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent className="space-y-2">
-                      {standard.permissions.map((permission, index) => (
-                        <div key={permission.module} className="flex items-center gap-4 p-2">
-                          <span className="w-32 text-sm">{permission.module}</span>
-                          {editingRole === standard.id ? (
-                            <div className="flex gap-4">
-                              <div className="flex items-center gap-2">
-                                <Checkbox
-                                  id={`${standard.id}-${permission.module}-view`}
-                                  checked={editedValues?.permissions[index].canView}
-                                  onCheckedChange={(checked) =>
-                                    handlePermissionChange(standard.id, index, "canView", checked as boolean)
-                                  }
-                                />
-                                <label htmlFor={`${standard.id}-${permission.module}-view`}>View</label>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Checkbox
-                                  id={`${standard.id}-${permission.module}-edit`}
-                                  checked={editedValues?.permissions[index].canEdit}
-                                  onCheckedChange={(checked) =>
-                                    handlePermissionChange(standard.id, index, "canEdit", checked as boolean)
-                                  }
-                                />
-                                <label htmlFor={`${standard.id}-${permission.module}-edit`}>Edit</label>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Checkbox
-                                  id={`${standard.id}-${permission.module}-delete`}
-                                  checked={editedValues?.permissions[index].canDelete}
-                                  onCheckedChange={(checked) =>
-                                    handlePermissionChange(standard.id, index, "canDelete", checked as boolean)
-                                  }
-                                />
-                                <label htmlFor={`${standard.id}-${permission.module}-delete`}>Delete</label>
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="flex gap-4">
-                              {permission.canView && <span className="text-sm">View</span>}
-                              {permission.canEdit && <span className="text-sm">Edit</span>}
-                              {permission.canDelete && <span className="text-sm">Delete</span>}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </CollapsibleContent>
-                  </Collapsible>
+                  <RolePermissions
+                    role={standard}
+                    isEditing={editingRole === standard.id}
+                    openPermissions={openPermissions}
+                    editedValues={editedValues}
+                    onPermissionChange={handlePermissionChange}
+                    onTogglePermissions={togglePermissions}
+                  />
                 </TableCell>
                 <TableCell>
-                  <div className="flex gap-2">
-                    {editingRole === standard.id ? (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleSave(standard.id)}
-                      >
-                        <Save className="h-4 w-4" />
-                      </Button>
-                    ) : (
-                      <>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleEdit(standard)}
-                        >
-                          <Edit2 className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleDeleteClick(standard.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </>
-                    )}
-                  </div>
+                  <RoleActions
+                    isEditing={editingRole === standard.id}
+                    onEdit={() => handleEdit(standard)}
+                    onSave={() => handleSave(standard.id)}
+                    onDelete={() => handleDeleteClick(standard.id)}
+                  />
                 </TableCell>
               </TableRow>
             ))}
@@ -311,22 +230,11 @@ export function RoleAdministration() {
         </Table>
       </CardContent>
 
-      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the role.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteConfirm}>
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <DeleteRoleDialog
+        open={showDeleteDialog}
+        onOpenChange={setShowDeleteDialog}
+        onConfirm={handleDeleteConfirm}
+      />
     </Card>
   );
 }
