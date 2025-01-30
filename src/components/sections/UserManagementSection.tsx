@@ -5,12 +5,13 @@ import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { toast } from "sonner";
+import { Role } from "@/data/roles";
 
 export type User = {
   id: string;
   name: string;
   email: string;
-  role: "admin" | "manager" | "operator";
+  role: Role["id"];
   status: "active" | "inactive";
   lastActive: string;
 };
@@ -21,7 +22,7 @@ export const UserManagementSection = () => {
       id: "1",
       name: "John Doe",
       email: "john@example.com",
-      role: "admin",
+      role: "site-manager",
       status: "active",
       lastActive: "2024-02-20",
     },
@@ -29,7 +30,7 @@ export const UserManagementSection = () => {
       id: "2",
       name: "Jane Smith",
       email: "jane@example.com",
-      role: "manager",
+      role: "safety-officer",
       status: "active",
       lastActive: "2024-02-19",
     },
