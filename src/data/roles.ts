@@ -1,3 +1,10 @@
+export type Permission = {
+  module: string;
+  canView: boolean;
+  canEdit: boolean;
+  canDelete: boolean;
+};
+
 export type Role = {
   id: string;
   title: string;
@@ -5,7 +12,30 @@ export type Role = {
   overtimeLimit: number;
   hourlyRate: number;
   overtimeRate: number;
+  permissions: Permission[];
 };
+
+export const defaultModules = [
+  "dashboard",
+  "analytics",
+  "geofence",
+  "userManagement",
+  "equipment",
+  "tasks",
+  "notifications",
+  "security",
+  "integrations",
+  "monitoring",
+  "jsa",
+  "roleAdmin"
+];
+
+const defaultPermissions: Permission[] = defaultModules.map(module => ({
+  module,
+  canView: false,
+  canEdit: false,
+  canDelete: false,
+}));
 
 export const roles: Role[] = [
   {
@@ -15,6 +45,12 @@ export const roles: Role[] = [
     overtimeLimit: 10,
     hourlyRate: 45,
     overtimeRate: 67.5,
+    permissions: defaultModules.map(module => ({
+      module,
+      canView: true,
+      canEdit: true,
+      canDelete: true,
+    })),
   },
   {
     id: "safety-officer",
@@ -23,6 +59,7 @@ export const roles: Role[] = [
     overtimeLimit: 10,
     hourlyRate: 35,
     overtimeRate: 52.5,
+    permissions: defaultPermissions,
   },
   {
     id: "equipment-operator",
@@ -31,6 +68,7 @@ export const roles: Role[] = [
     overtimeLimit: 12,
     hourlyRate: 30,
     overtimeRate: 45,
+    permissions: defaultPermissions,
   },
   {
     id: "maintenance-technician",
@@ -39,6 +77,7 @@ export const roles: Role[] = [
     overtimeLimit: 12,
     hourlyRate: 28,
     overtimeRate: 42,
+    permissions: defaultPermissions,
   },
   {
     id: "field-supervisor",
@@ -47,6 +86,7 @@ export const roles: Role[] = [
     overtimeLimit: 10,
     hourlyRate: 40,
     overtimeRate: 60,
+    permissions: defaultPermissions,
   },
   {
     id: "general-worker",
@@ -55,6 +95,7 @@ export const roles: Role[] = [
     overtimeLimit: 12,
     hourlyRate: 25,
     overtimeRate: 37.5,
+    permissions: defaultPermissions,
   },
 ];
 
