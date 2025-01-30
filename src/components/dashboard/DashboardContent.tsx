@@ -2,6 +2,7 @@ import { TaskList } from "@/components/dashboard/TaskList";
 import { WeeklyAnalytics } from "@/components/dashboard/WeeklyAnalytics";
 import { EquipmentStatus } from "@/components/dashboard/EquipmentStatus";
 import { ImageGallery } from "@/components/dashboard/ImageGallery";
+import { RoleAdministration } from "@/components/dashboard/RoleAdministration";
 
 export const DashboardContent = () => {
   return (
@@ -13,6 +14,9 @@ export const DashboardContent = () => {
       <div className="grid gap-4 md:grid-cols-2">
         <EquipmentStatus />
         <ImageGallery />
+      </div>
+      <div className="grid gap-4">
+        <RoleAdministration />
       </div>
     </div>
   );
