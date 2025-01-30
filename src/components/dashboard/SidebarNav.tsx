@@ -15,7 +15,6 @@ export function SidebarNav({ activeItem, setActiveItem }: SidebarNavProps) {
     { id: "tasks", label: "Task & Schedule Mgmt" },
     { id: "jsa", label: "JSA Checklists" },
     { id: "notifications", label: "Notifications" },
-    { id: "security", label: "Security & Compliance" },
     { id: "integrations", label: "Integrations" },
     { id: "roleAdmin", label: "Role Administration" },
   ];

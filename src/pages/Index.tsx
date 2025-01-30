@@ -5,7 +5,6 @@ import { GeofenceSection } from "@/components/sections/GeofenceSection";
 import { UserManagementSection } from "@/components/sections/UserManagementSection";
 import { EquipmentSection } from "@/components/sections/EquipmentSection";
 import { TaskSection } from "@/components/sections/TaskSection";
-import { SecuritySection } from "@/components/sections/SecuritySection";
 import { IntegrationSection } from "@/components/sections/IntegrationSection";
 import { NotificationsSection } from "@/components/sections/NotificationsSection";
 import { JSASection } from "@/components/sections/JSASection";
@@ -43,8 +42,6 @@ const Index = () => {
         return <TaskSection />;
       case "notifications":
         return <NotificationsSection />;
-      case "security":
-        return <SecuritySection />;
       case "integrations":
         return <IntegrationSection />;
       case "jsa":
