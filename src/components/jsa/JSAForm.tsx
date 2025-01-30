@@ -16,11 +16,18 @@ import { JSAChecklist, JSASection } from "@/types/jsa";
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import { JSASectionForm } from "./JSASectionForm";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const jsaSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   description: z.string().min(2, "Description must be at least 2 characters"),
-  jobTitle: z.string().min(2, "Job title must be at least 2 characters"),
+  jobTitle: z.string().min(2, "Role must be selected"),
 });
 
 type JSAFormValues = z.infer<typeof jsaSchema>;
@@ -34,6 +41,15 @@ export const JSAForm = ({ checklist, onSubmit }: JSAFormProps) => {
   const [sections, setSections] = useState<JSASection[]>(
     checklist?.sections || []
   );
+
+  const roles = [
+    "Site Manager",
+    "Safety Officer",
+    "Equipment Operator",
+    "Maintenance Technician",
+    "Field Supervisor",
+    "General Worker"
+  ];
 
   const form = useForm<JSAFormValues>({
     resolver: zodResolver(jsaSchema),
@@ -113,10 +129,21 @@ export const JSAForm = ({ checklist, onSubmit }: JSAFormProps) => {
           name="jobTitle"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Job Title</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter job title" {...field} />
-              </FormControl>
+              <FormLabel>Role</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a role" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {roles.map((role) => (
+                    <SelectItem key={role} value={role}>
+                      {role}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
