@@ -5,7 +5,6 @@ import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { toast } from "sonner";
-import { JobTitle } from "@/types/jobTitle";
 
 export type User = {
   id: string;
@@ -14,7 +13,6 @@ export type User = {
   role: "admin" | "manager" | "operator";
   status: "active" | "inactive";
   lastActive: string;
-  jobTitleId?: string;
 };
 
 export const UserManagementSection = () => {
@@ -26,7 +24,6 @@ export const UserManagementSection = () => {
       role: "admin",
       status: "active",
       lastActive: "2024-02-20",
-      jobTitleId: "1",
     },
     {
       id: "2",
@@ -35,21 +32,6 @@ export const UserManagementSection = () => {
       role: "manager",
       status: "active",
       lastActive: "2024-02-19",
-      jobTitleId: "2",
-    },
-  ]);
-
-  // Mock job titles for demonstration
-  const [jobTitles] = useState<JobTitle[]>([
-    {
-      id: "1",
-      title: "Project Manager",
-      description: "Manages construction projects and team coordination",
-    },
-    {
-      id: "2",
-      title: "Equipment Operator",
-      description: "Operates heavy machinery and equipment",
     },
   ]);
 
@@ -94,13 +76,12 @@ export const UserManagementSection = () => {
             <SheetHeader>
               <SheetTitle>Add New User</SheetTitle>
             </SheetHeader>
-            <UserForm onSubmit={handleAddUser} jobTitles={jobTitles} />
+            <UserForm onSubmit={handleAddUser} />
           </SheetContent>
         </Sheet>
       </div>
       <UserList 
         users={users}
-        jobTitles={jobTitles}
         onUpdate={handleUpdateUser}
         onDelete={handleDeleteUser}
       />
