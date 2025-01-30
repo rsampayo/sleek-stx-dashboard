@@ -19,7 +19,7 @@ import { Button } from "../ui/button";
 import { Eye, FileDown } from "lucide-react";
 import { CompletedJSA } from "@/types/jsa";
 import { format } from "date-fns";
-import SignatureCanvas from "react-signature-canvas";
+import { Input } from "../ui/input";
 import { useToast } from "../ui/use-toast";
 
 interface CompletedJSAListProps {
@@ -28,13 +28,12 @@ interface CompletedJSAListProps {
 
 export const CompletedJSAList = ({ completedChecklists }: CompletedJSAListProps) => {
   const [selectedJSA, setSelectedJSA] = useState<CompletedJSA | null>(null);
+  const [signature, setSignature] = useState<string>("");
   const { toast } = useToast();
-  const [signaturePad, setSignaturePad] = useState<SignatureCanvas | null>(null);
 
   const handleSign = async () => {
-    if (!signaturePad || !selectedJSA) return;
+    if (!signature || !selectedJSA) return;
     
-    const signature = signaturePad.toDataURL();
     // Here you would typically save the signature to your backend
     toast({
       title: "Signature saved",
@@ -124,19 +123,20 @@ export const CompletedJSAList = ({ completedChecklists }: CompletedJSAListProps)
                           {checklist.status === "pending_signature" && (
                             <div className="space-y-4">
                               <h3 className="text-lg font-semibold">
-                                Digital Signature
+                                Electronic Signature
                               </h3>
                               <div className="border rounded-md p-4">
-                                <SignatureCanvas
-                                  ref={(ref) => setSignaturePad(ref)}
-                                  canvasProps={{
-                                    className: "signature-canvas w-full h-40 border",
-                                  }}
+                                <Input
+                                  type="text"
+                                  value={signature}
+                                  onChange={(e) => setSignature(e.target.value)}
+                                  placeholder="Type your full name to sign"
+                                  className="font-signature text-xl"
                                 />
                                 <div className="flex justify-end space-x-2 mt-2">
                                   <Button
                                     variant="outline"
-                                    onClick={() => signaturePad?.clear()}
+                                    onClick={() => setSignature("")}
                                   >
                                     Clear
                                   </Button>
