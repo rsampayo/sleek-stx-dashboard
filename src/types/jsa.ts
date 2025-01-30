@@ -4,6 +4,7 @@ export interface JSAItem {
   id: string;
   text: string;
   type: JSAItemType;
+  response?: string;
 }
 
 export interface JSASection {
@@ -18,4 +19,11 @@ export interface JSAChecklist {
   description: string;
   jobTitle: string;
   sections: JSASection[];
+}
+
+export interface CompletedJSA extends JSAChecklist {
+  completedBy: string;
+  completedAt: Date;
+  signature?: string;
+  status: 'completed' | 'pending_signature';
 }
