@@ -19,11 +19,12 @@ import {
   SelectValue,
 } from "../ui/select";
 import type { User } from "../sections/UserManagementSection";
+import { roles } from "@/data/roles";
 
 const userSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
-  role: z.enum(["admin", "manager", "operator"]),
+  role: z.string(),
   status: z.enum(["active", "inactive"]),
 });
 
@@ -40,7 +41,7 @@ export const UserForm = ({ user, onSubmit }: UserFormProps) => {
     defaultValues: user ?? {
       name: "",
       email: "",
-      role: "operator",
+      role: roles[0].id,
       status: "active",
     },
   });
@@ -89,9 +90,11 @@ export const UserForm = ({ user, onSubmit }: UserFormProps) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="admin">Admin</SelectItem>
-                  <SelectItem value="manager">Manager</SelectItem>
-                  <SelectItem value="operator">Operator</SelectItem>
+                  {roles.map((role) => (
+                    <SelectItem key={role.id} value={role.id}>
+                      {role.title}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormMessage />

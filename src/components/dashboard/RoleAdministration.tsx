@@ -5,52 +5,21 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Edit2, Save } from "lucide-react";
 import { toast } from "sonner";
-
-interface RoleStandard {
-  role: string;
-  standardHours: number;
-  overtimeLimit: number;
-  hourlyRate: number;
-  overtimeRate: number;
-}
-
-const initialStandards: RoleStandard[] = [
-  {
-    role: "Operator",
-    standardHours: 8,
-    overtimeLimit: 12,
-    hourlyRate: 25,
-    overtimeRate: 37.5,
-  },
-  {
-    role: "Supervisor",
-    standardHours: 8,
-    overtimeLimit: 10,
-    hourlyRate: 35,
-    overtimeRate: 52.5,
-  },
-  {
-    role: "Manager",
-    standardHours: 8,
-    overtimeLimit: 10,
-    hourlyRate: 45,
-    overtimeRate: 67.5,
-  },
-];
+import { roles as initialRoles, Role } from "@/data/roles";
 
 export function RoleAdministration() {
-  const [standards, setStandards] = useState<RoleStandard[]>(initialStandards);
+  const [standards, setStandards] = useState<Role[]>(initialRoles);
   const [editingRole, setEditingRole] = useState<string | null>(null);
-  const [editedValues, setEditedValues] = useState<RoleStandard | null>(null);
+  const [editedValues, setEditedValues] = useState<Role | null>(null);
 
-  const handleEdit = (role: RoleStandard) => {
-    setEditingRole(role.role);
+  const handleEdit = (role: Role) => {
+    setEditingRole(role.id);
     setEditedValues(role);
   };
 
-  const handleSave = (role: string) => {
+  const handleSave = (roleId: string) => {
     if (editedValues) {
-      setStandards(standards.map((s) => (s.role === role ? editedValues : s)));
+      setStandards(standards.map((s) => (s.id === roleId ? editedValues : s)));
       setEditingRole(null);
       setEditedValues(null);
       toast.success("Role standards updated successfully");
@@ -58,14 +27,14 @@ export function RoleAdministration() {
   };
 
   const handleInputChange = (
-    field: keyof RoleStandard,
+    field: keyof Role,
     value: string,
-    role: string
+    roleId: string
   ) => {
     if (editedValues) {
       setEditedValues({
         ...editedValues,
-        [field]: field === "role" ? value : Number(value),
+        [field]: field === "title" || field === "id" ? value : Number(value),
       });
     }
   };
@@ -89,21 +58,21 @@ export function RoleAdministration() {
           </TableHeader>
           <TableBody>
             {standards.map((standard) => (
-              <TableRow key={standard.role}>
+              <TableRow key={standard.id}>
                 <TableCell>
-                  {editingRole === standard.role ? (
+                  {editingRole === standard.id ? (
                     <Input
-                      value={editedValues?.role || ""}
+                      value={editedValues?.title || ""}
                       onChange={(e) =>
-                        handleInputChange("role", e.target.value, standard.role)
+                        handleInputChange("title", e.target.value, standard.id)
                       }
                     />
                   ) : (
-                    standard.role
+                    standard.title
                   )}
                 </TableCell>
                 <TableCell>
-                  {editingRole === standard.role ? (
+                  {editingRole === standard.id ? (
                     <Input
                       type="number"
                       value={editedValues?.standardHours || 0}
@@ -111,7 +80,7 @@ export function RoleAdministration() {
                         handleInputChange(
                           "standardHours",
                           e.target.value,
-                          standard.role
+                          standard.id
                         )
                       }
                     />
@@ -120,7 +89,7 @@ export function RoleAdministration() {
                   )}
                 </TableCell>
                 <TableCell>
-                  {editingRole === standard.role ? (
+                  {editingRole === standard.id ? (
                     <Input
                       type="number"
                       value={editedValues?.overtimeLimit || 0}
@@ -128,7 +97,7 @@ export function RoleAdministration() {
                         handleInputChange(
                           "overtimeLimit",
                           e.target.value,
-                          standard.role
+                          standard.id
                         )
                       }
                     />
@@ -137,7 +106,7 @@ export function RoleAdministration() {
                   )}
                 </TableCell>
                 <TableCell>
-                  {editingRole === standard.role ? (
+                  {editingRole === standard.id ? (
                     <Input
                       type="number"
                       value={editedValues?.hourlyRate || 0}
@@ -145,7 +114,7 @@ export function RoleAdministration() {
                         handleInputChange(
                           "hourlyRate",
                           e.target.value,
-                          standard.role
+                          standard.id
                         )
                       }
                     />
@@ -154,7 +123,7 @@ export function RoleAdministration() {
                   )}
                 </TableCell>
                 <TableCell>
-                  {editingRole === standard.role ? (
+                  {editingRole === standard.id ? (
                     <Input
                       type="number"
                       value={editedValues?.overtimeRate || 0}
@@ -162,7 +131,7 @@ export function RoleAdministration() {
                         handleInputChange(
                           "overtimeRate",
                           e.target.value,
-                          standard.role
+                          standard.id
                         )
                       }
                     />
@@ -171,11 +140,11 @@ export function RoleAdministration() {
                   )}
                 </TableCell>
                 <TableCell>
-                  {editingRole === standard.role ? (
+                  {editingRole === standard.id ? (
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => handleSave(standard.role)}
+                      onClick={() => handleSave(standard.id)}
                     >
                       <Save className="h-4 w-4" />
                     </Button>
