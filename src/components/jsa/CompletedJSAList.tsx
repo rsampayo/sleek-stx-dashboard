@@ -19,7 +19,6 @@ import { Button } from "../ui/button";
 import { Eye, FileDown } from "lucide-react";
 import { CompletedJSA } from "@/types/jsa";
 import { format } from "date-fns";
-import { Input } from "../ui/input";
 import { useToast } from "../ui/use-toast";
 
 interface CompletedJSAListProps {
@@ -28,18 +27,7 @@ interface CompletedJSAListProps {
 
 export const CompletedJSAList = ({ completedChecklists }: CompletedJSAListProps) => {
   const [selectedJSA, setSelectedJSA] = useState<CompletedJSA | null>(null);
-  const [signature, setSignature] = useState<string>("");
   const { toast } = useToast();
-
-  const handleSign = async () => {
-    if (!signature || !selectedJSA) return;
-    
-    // Here you would typically save the signature to your backend
-    toast({
-      title: "Signature saved",
-      description: "The JSA has been signed successfully",
-    });
-  };
 
   const generatePDF = async (jsa: CompletedJSA) => {
     // Here you would implement PDF generation logic
@@ -119,32 +107,6 @@ export const CompletedJSAList = ({ completedChecklists }: CompletedJSAListProps)
                               </div>
                             </div>
                           ))}
-                          
-                          {checklist.status === "pending_signature" && (
-                            <div className="space-y-4">
-                              <h3 className="text-lg font-semibold">
-                                Electronic Signature
-                              </h3>
-                              <div className="border rounded-md p-4">
-                                <Input
-                                  type="text"
-                                  value={signature}
-                                  onChange={(e) => setSignature(e.target.value)}
-                                  placeholder="Type your full name to sign"
-                                  className="font-signature text-xl"
-                                />
-                                <div className="flex justify-end space-x-2 mt-2">
-                                  <Button
-                                    variant="outline"
-                                    onClick={() => setSignature("")}
-                                  >
-                                    Clear
-                                  </Button>
-                                  <Button onClick={handleSign}>Sign</Button>
-                                </div>
-                              </div>
-                            </div>
-                          )}
                         </div>
                       </DialogContent>
                     </Dialog>

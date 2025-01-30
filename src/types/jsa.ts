@@ -24,6 +24,5 @@ export interface JSAChecklist {
 export interface CompletedJSA extends JSAChecklist {
   completedBy: string;
   completedAt: Date;
-  signature?: string;
-  status: 'completed' | 'pending_signature';
+  status: 'completed' | 'pending';
 }
