@@ -37,17 +37,19 @@ export const JSAForm = ({ checklist, onSubmit }: JSAFormProps) => {
 
   const form = useForm<JSAFormValues>({
     resolver: zodResolver(jsaSchema),
-    defaultValues: checklist || {
-      name: "",
-      description: "",
-      jobTitle: "",
+    defaultValues: {
+      name: checklist?.name || "",
+      description: checklist?.description || "",
+      jobTitle: checklist?.jobTitle || "",
     },
   });
 
   const handleSubmit = (data: JSAFormValues) => {
     const newChecklist: JSAChecklist = {
       id: checklist?.id || crypto.randomUUID(),
-      ...data,
+      name: data.name,
+      description: data.description,
+      jobTitle: data.jobTitle,
       sections,
     };
     onSubmit(newChecklist);
