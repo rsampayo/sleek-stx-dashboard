@@ -10,6 +10,7 @@ import { IntegrationSection } from "@/components/sections/IntegrationSection";
 import { MonitoringSection } from "@/components/sections/MonitoringSection";
 import { NotificationsSection } from "@/components/sections/NotificationsSection";
 import { JSASection } from "@/components/sections/JSASection";
+import { RoleAdministration } from "@/components/dashboard/RoleAdministration";
 import { useState, useEffect } from "react";
 
 const Index = () => {
@@ -51,6 +52,8 @@ const Index = () => {
         return <MonitoringSection />;
       case "jsa":
         return <JSASection />;
+      case "roleAdmin":
+        return <RoleAdministration />;
       default:
         return (
           <div className="p-6">

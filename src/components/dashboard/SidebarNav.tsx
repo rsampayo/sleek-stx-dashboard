@@ -18,6 +18,7 @@ export function SidebarNav({ activeItem, setActiveItem }: SidebarNavProps) {
     { id: "security", label: "Security & Compliance" },
     { id: "integrations", label: "Integrations" },
     { id: "monitoring", label: "Monitoring & Support" },
+    { id: "roleAdmin", label: "Role Administration" },
   ];
 
   return (
