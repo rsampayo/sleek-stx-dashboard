@@ -19,22 +19,25 @@ import {
   SelectValue,
 } from "../ui/select";
 import type { User } from "../sections/UserManagementSection";
+import type { JobTitle } from "@/types/jobTitle";
 
 const userSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   role: z.enum(["admin", "manager", "operator"]),
   status: z.enum(["active", "inactive"]),
+  jobTitleId: z.string().optional(),
 });
 
 type UserFormValues = z.infer<typeof userSchema>;
 
 interface UserFormProps {
   user?: User;
+  jobTitles: JobTitle[];
   onSubmit: (values: UserFormValues) => void;
 }
 
-export const UserForm = ({ user, onSubmit }: UserFormProps) => {
+export const UserForm = ({ user, jobTitles, onSubmit }: UserFormProps) => {
   const form = useForm<UserFormValues>({
     resolver: zodResolver(userSchema),
     defaultValues: user ?? {
@@ -42,6 +45,7 @@ export const UserForm = ({ user, onSubmit }: UserFormProps) => {
       email: "",
       role: "operator",
       status: "active",
+      jobTitleId: "",
     },
   });
 
@@ -114,6 +118,31 @@ export const UserForm = ({ user, onSubmit }: UserFormProps) => {
                 <SelectContent>
                   <SelectItem value="active">Active</SelectItem>
                   <SelectItem value="inactive">Inactive</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="jobTitleId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Job Title</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a job title" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {jobTitles.map((jobTitle) => (
+                    <SelectItem key={jobTitle.id} value={jobTitle.id}>
+                      {jobTitle.title}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormMessage />

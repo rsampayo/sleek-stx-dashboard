@@ -1,4 +1,5 @@
 import { User } from "../sections/UserManagementSection";
+import { JobTitle } from "@/types/jobTitle";
 import { 
   Table,
   TableBody,
@@ -32,11 +33,16 @@ import {
 
 interface UserListProps {
   users: User[];
+  jobTitles: JobTitle[];
   onUpdate: (user: User) => void;
   onDelete: (userId: string) => void;
 }
 
-export const UserList = ({ users, onUpdate, onDelete }: UserListProps) => {
+export const UserList = ({ users, jobTitles, onUpdate, onDelete }: UserListProps) => {
+  const getJobTitle = (jobTitleId?: string) => {
+    return jobTitles.find(jt => jt.id === jobTitleId)?.title || 'Not Assigned';
+  };
+
   return (
     <Table>
       <TableHeader>
@@ -45,6 +51,7 @@ export const UserList = ({ users, onUpdate, onDelete }: UserListProps) => {
           <TableHead>Email</TableHead>
           <TableHead>Role</TableHead>
           <TableHead>Status</TableHead>
+          <TableHead>Job Title</TableHead>
           <TableHead>Last Active</TableHead>
           <TableHead>Actions</TableHead>
         </TableRow>
@@ -67,6 +74,7 @@ export const UserList = ({ users, onUpdate, onDelete }: UserListProps) => {
                 {user.status}
               </Badge>
             </TableCell>
+            <TableCell>{getJobTitle(user.jobTitleId)}</TableCell>
             <TableCell>{user.lastActive}</TableCell>
             <TableCell>
               <div className="flex space-x-2">
@@ -82,14 +90,15 @@ export const UserList = ({ users, onUpdate, onDelete }: UserListProps) => {
                     </SheetHeader>
                     <UserForm 
                       user={user}
+                      jobTitles={jobTitles}
                       onSubmit={(updatedUserData) => {
-                        // Ensure all required properties are present
                         const updatedUser: User = {
                           id: user.id,
                           name: updatedUserData.name,
                           email: updatedUserData.email,
                           role: updatedUserData.role,
                           status: updatedUserData.status,
+                          jobTitleId: updatedUserData.jobTitleId,
                           lastActive: user.lastActive
                         };
                         onUpdate(updatedUser);

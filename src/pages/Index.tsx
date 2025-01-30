@@ -1,9 +1,9 @@
-import { DashboardLayout } from "@/components/DashboardLayout";
 import { Dashboard } from "@/components/dashboard/Dashboard";
-import { AnalyticsSection } from "@/components/sections/AnalyticsSection";
-import { GeofenceSection } from "@/components/sections/GeofenceSection";
 import { UserManagementSection } from "@/components/sections/UserManagementSection";
+import { JobTitleSection } from "@/components/sections/JobTitleSection";
 import { EquipmentSection } from "@/components/sections/EquipmentSection";
+import { GeofenceSection } from "@/components/sections/GeofenceSection";
+import { AnalyticsSection } from "@/components/sections/AnalyticsSection";
 import { TaskSection } from "@/components/sections/TaskSection";
 import { SecuritySection } from "@/components/sections/SecuritySection";
 import { IntegrationSection } from "@/components/sections/IntegrationSection";
@@ -13,59 +13,54 @@ import { JSASection } from "@/components/sections/JSASection";
 import { useState, useEffect } from "react";
 
 const Index = () => {
-  const [activeSection, setActiveSection] = useState("dashboard");
+  const [section, setSection] = useState("dashboard");
 
   useEffect(() => {
-    const handleSectionChange = (event: CustomEvent<{ section: string }>) => {
-      setActiveSection(event.detail.section);
-    };
-
-    window.addEventListener('sectionChange', handleSectionChange as EventListener);
-
-    return () => {
-      window.removeEventListener('sectionChange', handleSectionChange as EventListener);
-    };
+    const params = new URLSearchParams(window.location.search);
+    const sectionParam = params.get("section");
+    if (sectionParam) {
+      setSection(sectionParam);
+    }
   }, []);
 
   const renderSection = () => {
-    switch (activeSection) {
+    switch (section) {
       case "dashboard":
         return <Dashboard />;
-      case "analytics":
-        return <AnalyticsSection />;
-      case "geofence":
-        return <GeofenceSection />;
-      case "userManagement":
+      case "users":
         return <UserManagementSection />;
+      case "job-titles":
+        return <JobTitleSection />;
       case "equipment":
         return <EquipmentSection />;
+      case "geofence":
+        return <GeofenceSection />;
+      case "analytics":
+        return <AnalyticsSection />;
       case "tasks":
         return <TaskSection />;
-      case "notifications":
-        return <NotificationsSection />;
       case "security":
         return <SecuritySection />;
       case "integrations":
         return <IntegrationSection />;
       case "monitoring":
         return <MonitoringSection />;
+      case "notifications":
+        return <NotificationsSection />;
       case "jsa":
         return <JSASection />;
       default:
         return (
           <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">{activeSection}</h1>
-            <p className="text-muted-foreground">This section is under development.</p>
+            <h1 className="text-2xl font-bold tracking-tight">
+              Section not found
+            </h1>
           </div>
         );
     }
   };
 
-  return (
-    <DashboardLayout>
-      {renderSection()}
-    </DashboardLayout>
-  );
+  return renderSection();
 };
 
 export default Index;
