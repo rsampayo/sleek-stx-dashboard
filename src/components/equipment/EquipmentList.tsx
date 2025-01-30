@@ -1,13 +1,9 @@
 import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import { Edit, Trash2, User } from "lucide-react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
-import { EquipmentForm } from "./EquipmentForm";
-import { AssignEquipmentDialog } from "./AssignEquipmentDialog";
+import { User } from "lucide-react";
 import { toast } from "sonner";
+import { EquipmentStatusBadge } from "./EquipmentStatusBadge";
+import { EquipmentActions } from "./EquipmentActions";
 
 interface Equipment {
   id: string;
@@ -55,15 +51,6 @@ export const EquipmentList = () => {
     }
   ]);
 
-  const getStatusBadge = (status: Equipment["status"]) => {
-    const variants: Record<Equipment["status"], "default" | "secondary" | "destructive"> = {
-      operational: "default",
-      maintenance: "secondary",
-      "out-of-service": "destructive"
-    };
-    return <Badge variant={variants[status]}>{status}</Badge>;
-  };
-
   const handleDelete = (id: string) => {
     console.log("Deleting equipment:", id);
     toast.success("Equipment deleted successfully");
@@ -94,7 +81,9 @@ export const EquipmentList = () => {
             <TableRow key={item.id}>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.type}</TableCell>
-              <TableCell>{getStatusBadge(item.status)}</TableCell>
+              <TableCell>
+                <EquipmentStatusBadge status={item.status} />
+              </TableCell>
               <TableCell>{item.lastMaintenance}</TableCell>
               <TableCell>{item.nextMaintenance}</TableCell>
               <TableCell>{item.location}</TableCell>
@@ -109,46 +98,12 @@ export const EquipmentList = () => {
                 )}
               </TableCell>
               <TableCell>
-                <div className="flex space-x-2">
-                  <AssignEquipmentDialog
-                    equipmentName={item.name}
-                    onAssign={(userId) => handleAssign(item.id, userId)}
-                  />
-                  <Sheet>
-                    <SheetTrigger asChild>
-                      <Button variant="outline" size="icon">
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                    </SheetTrigger>
-                    <SheetContent>
-                      <SheetHeader>
-                        <SheetTitle>Edit Equipment</SheetTitle>
-                      </SheetHeader>
-                      <EquipmentForm equipment={item} />
-                    </SheetContent>
-                  </Sheet>
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button variant="outline" size="icon">
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Delete Equipment</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Are you sure you want to delete this equipment? This action cannot be undone.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => handleDelete(item.id)}>
-                          Delete
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                </div>
+                <EquipmentActions
+                  equipmentId={item.id}
+                  equipmentName={item.name}
+                  onDelete={handleDelete}
+                  onAssign={handleAssign}
+                />
               </TableCell>
             </TableRow>
           ))}
