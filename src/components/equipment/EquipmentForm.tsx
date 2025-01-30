@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { toast } from "sonner";
 
 const equipmentSchema = z.object({
+  id: z.string().optional(),
   name: z.string().min(2, "Name must be at least 2 characters"),
   type: z.string().min(2, "Type must be at least 2 characters"),
   status: z.enum(["operational", "maintenance", "out-of-service"]),
@@ -19,7 +20,7 @@ const equipmentSchema = z.object({
 type EquipmentFormValues = z.infer<typeof equipmentSchema>;
 
 interface EquipmentFormProps {
-  equipment?: EquipmentFormValues;
+  equipment?: Partial<EquipmentFormValues>;
   onSuccess?: () => void;
 }
 
@@ -38,7 +39,7 @@ export const EquipmentForm = ({ equipment, onSuccess }: EquipmentFormProps) => {
 
   const onSubmit = (data: EquipmentFormValues) => {
     console.log("Form submitted:", data);
-    toast.success(equipment ? "Equipment updated successfully" : "Equipment added successfully");
+    toast.success(equipment?.id ? "Equipment updated successfully" : "Equipment added successfully");
     if (onSuccess) onSuccess();
   };
 
@@ -139,7 +140,7 @@ export const EquipmentForm = ({ equipment, onSuccess }: EquipmentFormProps) => {
         />
 
         <Button type="submit" className="w-full">
-          {equipment ? "Update Equipment" : "Add Equipment"}
+          {equipment?.id ? "Update Equipment" : "Add Equipment"}
         </Button>
       </form>
     </Form>
