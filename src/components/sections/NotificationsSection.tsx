@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { NotificationHistory } from "../notifications/NotificationHistory";
 
 interface User {
   id: string;
@@ -68,104 +70,117 @@ export const NotificationsSection = () => {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Send Notifications</h1>
+      <h1 className="text-2xl font-bold">Notifications</h1>
       
-      <div className="grid md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Compose Notification</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
-              <Input
-                id="title"
-                value={notificationTitle}
-                onChange={(e) => setNotificationTitle(e.target.value)}
-                placeholder="Notification title"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="message">Message</Label>
-              <Textarea
-                id="message"
-                value={notificationMessage}
-                onChange={(e) => setNotificationMessage(e.target.value)}
-                placeholder="Type your message here"
-                className="min-h-[100px]"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="priority">Priority</Label>
-              <Select value={priority} onValueChange={setPriority}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select priority" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="low">Low</SelectItem>
-                  <SelectItem value="normal">Normal</SelectItem>
-                  <SelectItem value="high">High</SelectItem>
-                  <SelectItem value="urgent">Urgent</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+      <Tabs defaultValue="send" className="space-y-6">
+        <TabsList>
+          <TabsTrigger value="send">Send Notifications</TabsTrigger>
+          <TabsTrigger value="history">Notification History</TabsTrigger>
+        </TabsList>
 
-            <Button 
-              onClick={handleSendNotification}
-              className="w-full"
-            >
-              Send Notification
-            </Button>
-          </CardContent>
-        </Card>
+        <TabsContent value="send" className="space-y-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Compose Notification</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="title">Title</Label>
+                  <Input
+                    id="title"
+                    value={notificationTitle}
+                    onChange={(e) => setNotificationTitle(e.target.value)}
+                    placeholder="Notification title"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="message">Message</Label>
+                  <Textarea
+                    id="message"
+                    value={notificationMessage}
+                    onChange={(e) => setNotificationMessage(e.target.value)}
+                    placeholder="Type your message here"
+                    className="min-h-[100px]"
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="priority">Priority</Label>
+                  <Select value={priority} onValueChange={setPriority}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select priority" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="normal">Normal</SelectItem>
+                      <SelectItem value="high">High</SelectItem>
+                      <SelectItem value="urgent">Urgent</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex justify-between items-center">
-              <span>Select Recipients</span>
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={handleSelectAllUsers}
-              >
-                {selectedUsers.length === users.length ? "Deselect All" : "Select All"}
-              </Button>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-[300px] pr-4">
-              <div className="space-y-4">
-                {users.map((user) => (
-                  <div key={user.id} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`user-${user.id}`}
-                      checked={selectedUsers.includes(user.id)}
-                      onCheckedChange={(checked) => {
-                        if (checked) {
-                          setSelectedUsers([...selectedUsers, user.id]);
-                        } else {
-                          setSelectedUsers(selectedUsers.filter(id => id !== user.id));
-                        }
-                      }}
-                    />
-                    <Label
-                      htmlFor={`user-${user.id}`}
-                      className="flex flex-col cursor-pointer"
-                    >
-                      <span className="font-medium">{user.name}</span>
-                      <span className="text-sm text-muted-foreground">
-                        {user.email} • {user.role}
-                      </span>
-                    </Label>
+                <Button 
+                  onClick={handleSendNotification}
+                  className="w-full"
+                >
+                  Send Notification
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex justify-between items-center">
+                  <span>Select Recipients</span>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={handleSelectAllUsers}
+                  >
+                    {selectedUsers.length === users.length ? "Deselect All" : "Select All"}
+                  </Button>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ScrollArea className="h-[300px] pr-4">
+                  <div className="space-y-4">
+                    {users.map((user) => (
+                      <div key={user.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`user-${user.id}`}
+                          checked={selectedUsers.includes(user.id)}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              setSelectedUsers([...selectedUsers, user.id]);
+                            } else {
+                              setSelectedUsers(selectedUsers.filter(id => id !== user.id));
+                            }
+                          }}
+                        />
+                        <Label
+                          htmlFor={`user-${user.id}`}
+                          className="flex flex-col cursor-pointer"
+                        >
+                          <span className="font-medium">{user.name}</span>
+                          <span className="text-sm text-muted-foreground">
+                            {user.email} • {user.role}
+                          </span>
+                        </Label>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </ScrollArea>
-          </CardContent>
-        </Card>
-      </div>
+                </ScrollArea>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="history">
+          <NotificationHistory />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
