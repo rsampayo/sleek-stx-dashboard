@@ -22,19 +22,19 @@ export const GeofenceSection = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Geofence Management</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Jobsite Management</h1>
         <p className="text-muted-foreground">
-          Define and manage geofenced zones for each project or location.
+          Define and manage jobsite zones for each project or location.
         </p>
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <Button>Add New Geofence</Button>
+          <Button>Add New Jobsite</Button>
         </DialogTrigger>
         <DialogContent className="max-w-3xl">
           <DialogHeader>
-            <DialogTitle>Draw New Geofence</DialogTitle>
+            <DialogTitle>Draw New Jobsite Zone</DialogTitle>
           </DialogHeader>
           <div className="mt-4">
             <div style={mapContainerStyle}>
@@ -51,7 +51,7 @@ export const GeofenceSection = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Geofence ID</TableHead>
+            <TableHead>Jobsite ID</TableHead>
             <TableHead>Location Name</TableHead>
             <TableHead>Radius (m)</TableHead>
             <TableHead>Actions</TableHead>

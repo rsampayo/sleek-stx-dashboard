@@ -10,7 +10,7 @@ export function SidebarNav({ activeItem, setActiveItem }: SidebarNavProps) {
     { id: "dashboard", label: "Dashboard" },
     { id: "userManagement", label: "User Management" },
     { id: "equipment", label: "Equipment & Fleet" },
-    { id: "geofence", label: "Geofence Management" },
+    { id: "geofence", label: "Jobsite Management" },
     { id: "analytics", label: "Analytics & Reports" },
     { id: "tasks", label: "Task & Schedule Mgmt" },
     { id: "jsa", label: "JSA Checklists" },
