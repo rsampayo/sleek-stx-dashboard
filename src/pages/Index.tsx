@@ -8,6 +8,7 @@ import { TaskSection } from "@/components/sections/TaskSection";
 import { SecuritySection } from "@/components/sections/SecuritySection";
 import { IntegrationSection } from "@/components/sections/IntegrationSection";
 import { MonitoringSection } from "@/components/sections/MonitoringSection";
+import { NotificationsSection } from "@/components/sections/NotificationsSection";
 import { useState, useEffect } from "react";
 
 const Index = () => {
@@ -39,6 +40,8 @@ const Index = () => {
         return <EquipmentSection />;
       case "tasks":
         return <TaskSection />;
+      case "notifications":
+        return <NotificationsSection />;
       case "security":
         return <SecuritySection />;
       case "integrations":

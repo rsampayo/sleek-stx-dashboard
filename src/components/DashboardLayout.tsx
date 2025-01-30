@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 
@@ -19,6 +19,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     { id: "geofence", label: "Geofence Management" },
     { id: "analytics", label: "Analytics & Reports" },
     { id: "tasks", label: "Task & Schedule Mgmt" },
+    { id: "notifications", label: "Notifications" },
     { id: "security", label: "Security & Compliance" },
     { id: "integrations", label: "Integrations" },
     { id: "monitoring", label: "Monitoring & Support" },
