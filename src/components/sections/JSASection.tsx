@@ -89,7 +89,7 @@ const sampleCompletedJSAs: CompletedJSA[] = [
     ],
     completedBy: "Sarah Johnson",
     completedAt: new Date("2024-03-14T14:30:00"),
-    status: "pending_signature"
+    status: "pending"
   },
   {
     id: "jsa-003",
