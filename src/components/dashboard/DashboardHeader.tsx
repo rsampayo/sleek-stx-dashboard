@@ -1,42 +1,37 @@
-import { Activity, Box, Users, Clock } from "lucide-react";
-import { StatsCard } from "@/components/dashboard/StatsCard";
+import { Menu, X } from "lucide-react";
+import { NotificationBell } from "./NotificationBell";
 
-export const DashboardHeader = () => {
+interface DashboardHeaderProps {
+  sidebarOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
+  handleLogout: () => void;
+}
+
+export function DashboardHeader({ sidebarOpen, setSidebarOpen, handleLogout }: DashboardHeaderProps) {
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Track your tasks and equipment status
-        </p>
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background px-4 shadow-sm">
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="rounded-md p-2 hover:bg-primary/10 transition-colors duration-200"
+      >
+        {sidebarOpen ? (
+          <X className="h-6 w-6" />
+        ) : (
+          <Menu className="h-6 w-6" />
+        )}
+      </button>
+      <div className="flex items-center space-x-4">
+        <NotificationBell />
+        <span className="text-sm text-muted-foreground">
+          Welcome, Admin
+        </span>
+        <button 
+          onClick={handleLogout}
+          className="rounded-md bg-primary px-4 py-2 text-sm text-white hover:bg-primary/90 transition-colors duration-200"
+        >
+          Logout
+        </button>
       </div>
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatsCard
-          title="Active Tasks"
-          value="24"
-          change="+12%"
-          Icon={Activity}
-        />
-        <StatsCard
-          title="Equipment Status"
-          value="92%"
-          change="+3%"
-          Icon={Box}
-        />
-        <StatsCard
-          title="Team Members"
-          value="12"
-          change="0%"
-          Icon={Users}
-        />
-        <StatsCard
-          title="Hours Tracked"
-          value="164"
-          change="+8%"
-          Icon={Clock}
-        />
-      </div>
-    </div>
+    </header>
   );
-};
+}

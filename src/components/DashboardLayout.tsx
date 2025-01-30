@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Menu, X, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import { SidebarNav } from "./dashboard/SidebarNav";
+import { DashboardHeader } from "./dashboard/DashboardHeader";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -11,19 +12,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeItem, setActiveItem] = useState("dashboard");
   const navigate = useNavigate();
-
-  const navItems = [
-    { id: "dashboard", label: "Dashboard" },
-    { id: "userManagement", label: "User Management" },
-    { id: "equipment", label: "Equipment & Fleet" },
-    { id: "geofence", label: "Geofence Management" },
-    { id: "analytics", label: "Analytics & Reports" },
-    { id: "tasks", label: "Task & Schedule Mgmt" },
-    { id: "notifications", label: "Notifications" },
-    { id: "security", label: "Security & Compliance" },
-    { id: "integrations", label: "Integrations" },
-    { id: "monitoring", label: "Monitoring & Support" },
-  ];
 
   const handleLogout = () => {
     // TODO: Add actual logout logic here when authentication is implemented
@@ -45,28 +33,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <span className="text-lg font-semibold text-white">STX Underground</span>
           </div>
         </div>
-        <nav className="space-y-1 px-2 py-4">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => {
-                setActiveItem(item.id);
-                const event = new CustomEvent('sectionChange', { 
-                  detail: { section: item.id }
-                });
-                window.dispatchEvent(event);
-              }}
-              className={cn(
-                "flex w-full items-center rounded-md px-4 py-2 text-sm text-white transition-all duration-200 ease-in-out",
-                activeItem === item.id 
-                  ? "bg-accent text-accent-foreground font-medium" 
-                  : "hover:bg-primary/80 hover:translate-x-1"
-              )}
-            >
-              {item.label}
-            </button>
-          ))}
-        </nav>
+        <SidebarNav activeItem={activeItem} setActiveItem={setActiveItem} />
       </aside>
 
       {/* Main Content */}
@@ -76,30 +43,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           sidebarOpen ? "pl-64" : "pl-0"
         )}
       >
-        {/* Header */}
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background px-4 shadow-sm">
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="rounded-md p-2 hover:bg-primary/10 transition-colors duration-200"
-          >
-            {sidebarOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
-          <div className="flex items-center space-x-4">
-            <span className="text-sm text-muted-foreground">
-              Welcome, Admin
-            </span>
-            <button 
-              onClick={handleLogout}
-              className="rounded-md bg-primary px-4 py-2 text-sm text-white hover:bg-primary/90 transition-colors duration-200"
-            >
-              Logout
-            </button>
-          </div>
-        </header>
+        <DashboardHeader 
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          handleLogout={handleLogout}
+        />
 
         {/* Page Content */}
         <main className="p-4">
