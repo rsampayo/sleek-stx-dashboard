@@ -14,6 +14,7 @@ export type User = {
   role: Role["id"];
   status: "active" | "inactive";
   lastActive: string;
+  password?: string; // Optional because we don't want to expose it in the list view
 };
 
 export const UserManagementSection = () => {
@@ -25,6 +26,7 @@ export const UserManagementSection = () => {
       role: "site-manager",
       status: "active",
       lastActive: "2024-02-20",
+      password: "hashedpassword123" // In a real app, this would be properly hashed
     },
     {
       id: "2",
@@ -33,6 +35,7 @@ export const UserManagementSection = () => {
       role: "safety-officer",
       status: "active",
       lastActive: "2024-02-19",
+      password: "hashedpassword456"
     },
   ]);
 

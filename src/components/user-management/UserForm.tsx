@@ -26,6 +26,10 @@ const userSchema = z.object({
   email: z.string().email("Invalid email address"),
   role: z.string(),
   status: z.enum(["active", "inactive"]),
+  password: z.string()
+    .min(8, "Password must be at least 8 characters")
+    .optional()
+    .or(z.string().length(0)), // Allow empty string for updates
 });
 
 type UserFormValues = z.infer<typeof userSchema>;
@@ -43,6 +47,7 @@ export const UserForm = ({ user, onSubmit }: UserFormProps) => {
       email: "",
       role: roles[0].id,
       status: "active",
+      password: "",
     },
   });
 
@@ -71,6 +76,24 @@ export const UserForm = ({ user, onSubmit }: UserFormProps) => {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input type="email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{user ? "New Password (leave empty to keep current)" : "Password"}</FormLabel>
+              <FormControl>
+                <Input 
+                  type="password" 
+                  {...field} 
+                  placeholder={user ? "Enter new password" : "Enter password"}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
